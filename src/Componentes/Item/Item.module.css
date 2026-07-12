@@ -1,0 +1,11 @@
+.div1 { 
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px
+}
+
+.div2 {
+    display: flex;
+    gap: 10px;
+    align-items: center
+}
