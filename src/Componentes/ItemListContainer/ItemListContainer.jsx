@@ -1,27 +1,17 @@
-import { useEffect, useState } from 'react';
-import { pedirProductos } from '../../data/pedirProductos';
-import { ItemList } from '../ItemList/ItemList'
+import * as productHooks from "../../Context/useProducts.js";
+import { ItemList } from "../ItemList/ItemList.jsx";
 
-export function ItemListContainer({ Mensaje }){
+export function ItemListContainer({ Mensaje }) {
 
-    const [productos, setProductos] = useState([]);
+  const { productos, loading, error } = productHooks.useProducts();
 
-    const [loading, setLoading] = useState(true);
+  if (loading) return <p>Cargando...</p>;
+  if (error) return <p>Error al cargar productos</p>;
 
-    useEffect(() => {pedirProductos().then((respuesta) => {
-        setProductos(respuesta);
-        setLoading(false);
-    });
-}, []);
-
-if (loading){
-    return <p>Cargando...</p>
-}
-
-    return(
-        <div>
-            <h1>{Mensaje}</h1>
-            <ItemList productos={productos}/>
-        </div>
-    );
+  return (
+    <div>
+      <h1>{Mensaje}</h1>
+      <ItemList productos={productos} />
+    </div>
+  );
 }

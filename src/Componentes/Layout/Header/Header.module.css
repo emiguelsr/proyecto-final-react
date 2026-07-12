@@ -1,6 +1,89 @@
 .header {
-  background-color: #8DE2D6;
-  padding: 10px;
-  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(56, 32, 14, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 244, 225, 0.12);
+}
+
+.navbar {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brandWrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brandKicker {
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 233, 200, 0.72);
+}
+
+.brand {
+  margin: 0;
+  font-size: 1.65rem;
+  color: #fff7ed;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink,
+.adminLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.navLink {
+  color: #fff7ed;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.navLink:hover,
+.adminLink:hover,
+.logoutButton:hover {
+  transform: translateY(-1px);
+}
+
+.adminLink {
+  background: rgba(255, 208, 128, 0.18);
+  color: #ffd79a;
+}
+
+.userInfo {
+  color: #fff7ed;
+  font-size: 0.95rem;
+}
+
+.logoutButton {
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  background: linear-gradient(135deg, #e46d22, #c7521f);
   color: white;
+  font-weight: 700;
 }

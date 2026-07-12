@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useProducts } from "../../Context/useProducts";
-import { useCart } from "../../Context/useCart";
+import * as productHooks from "../../Context/useProducts.js";
+import * as cartHooks from "../../Context/useCart.js";
 import { Spinner } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { FaCartPlus } from "react-icons/fa";
@@ -9,8 +9,8 @@ import { useMemo } from "react";
 export default function ProductoDetalle() {
 
   const { id } = useParams();
-  const { productos, loading } = useProducts();
-  const { agregarProducto } = useCart();
+  const { productos, loading } = productHooks.useProducts();
+  const { agregarProducto } = cartHooks.useCart();
 
   const producto = useMemo(() => {
     return productos.find(p => p.id === id);

@@ -1,35 +1,63 @@
-import { useState } from "react";
-import styles from './Item.module.css'
+import { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
+import { useCart } from "../../Context/useCart";
+import { FaPlus, FaMinus, FaCartPlus } from "react-icons/fa";
+import React from "react";
+import styles from "./Item.module.css";
 
-export function Item({ nombre, precio, stock }){
-    
-    const [cantidad, setCantidad] = useState(0);
+function Item({ id, nombre, precio, stock, urlImagen }) {
 
-    const incrementar = () => {
-        if ( cantidad < stock ) setCantidad(cantidad + 1);
-    };
+  const [cantidad, setCantidad] = useState(0);
+  const { agregarProducto } = useCart();
 
-    const decrementar = () => {
-        if ( cantidad > 1 ) setCantidad(cantidad - 1)
-    };
+  const incrementar = useCallback(() => {
+    setCantidad((prev) => (prev < stock ? prev + 1 : prev));
+  }, [stock]);
 
-    const agregarAlCarrito = () => {
-        alert(`Agregaste ${cantidad} unidades de ${nombre} al carrito`);    
-    };
+  const decrementar = useCallback(() => {
+    setCantidad((prev) => (prev > 1 ? prev - 1 : prev));
+  }, []);
 
-    return(
-        <div className={styles.div1}>
-            <h3>{nombre}</h3>
-            <p>Precio: ${precio}</p>
-            <p>Stock disponible: {stock}</p>
+  const agregarAlCarrito = useCallback(() => {
+    agregarProducto({ id, nombre, precio, cantidad });
+  }, [id, nombre, precio, cantidad, agregarProducto]);
 
-            <div className={styles.div2}>
-                <button onClick={decrementar}>-</button>
-                <span>{cantidad}</span>
-                <button onClick={incrementar}>+</button>
-            </div>
+  return (
+    <article className={styles.itemCard}>
 
-            <button onClick={agregarAlCarrito}>Agregar al carrito</button>
-        </div>
-    );
+      <Link to={`/producto/${id}`} className="text-decoration-none">
+        <h4 className={styles.itemTitle}>{nombre}</h4>
+      </Link>
+
+      {urlImagen && (
+        <img
+          src={urlImagen}
+          alt={nombre}
+          className={styles.itemImage}
+        />
+      )}
+
+      <p className={styles.itemPrice}>${precio.toLocaleString("es-AR")}</p>
+      <p className={styles.itemMeta}>Stock disponible: {stock}</p>
+
+      <div className={styles.itemCounter}>
+        <button className={styles.counterButton} onClick={decrementar}>
+          <FaMinus />
+        </button>
+
+        <span className={styles.counterValue}>{cantidad}</span>
+
+        <button className={styles.counterButton} onClick={incrementar}>
+          <FaPlus />
+        </button>
+      </div>
+
+      <button className={styles.cartButton} onClick={agregarAlCarrito}>
+        <FaCartPlus className="me-2" />
+        Agregar al carrito
+      </button>
+    </article>
+  );
 }
+
+export default React.memo(Item);

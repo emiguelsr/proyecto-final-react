@@ -1,0 +1,7 @@
+.detalle {
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 24rem;
+  margin: 2rem auto;
+}

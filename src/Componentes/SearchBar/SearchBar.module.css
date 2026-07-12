@@ -1,0 +1,31 @@
+.searchWrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 251, 245, 0.92);
+  border: 1px solid rgba(126, 88, 49, 0.18);
+  box-shadow: 0 10px 24px rgba(100, 61, 22, 0.08);
+}
+
+.searchIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  color: #8a5a2b;
+}
+
+.searchInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0.85rem 1rem 0.85rem 0;
+  background: transparent;
+  color: #4b2f1f;
+}
+
+.searchInput::placeholder {
+  color: #a07c5b;
+}

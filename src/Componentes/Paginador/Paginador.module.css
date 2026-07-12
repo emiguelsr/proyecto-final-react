@@ -1,0 +1,27 @@
+.paginationWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.paginationInfo {
+  color: #6f5138;
+  font-weight: 600;
+}
+
+.paginationButton {
+  border: none;
+  border-radius: 999px;
+  padding: 0.65rem 1.1rem;
+  background: linear-gradient(135deg, #8a5a2b, #b56a2a);
+  color: white;
+  font-weight: 700;
+}
+
+.paginationButton:disabled {
+  background: #d8c5b0;
+  color: #8c7a68;
+}

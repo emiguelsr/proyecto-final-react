@@ -1,15 +1,16 @@
-import Header from "./Header/Header";
-import Footer from "./Footer/Footer";
+import { Outlet } from "react-router-dom";
+import Header from "./Header/Header.jsx";
+import Footer from "./Footer/Footer.jsx";
+import styles from "./Layout.module.css";
 
-function Layout( {children}){
-
-    return(
-        <div>
-            <Header/>
-                <main>{children}</main>
-            <Footer/>
-        </div>
-    );
+export default function Layout() {
+  return (
+    <div className="page-shell">
+      <Header />
+      <main className={`page-main ${styles.main}`}>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 }
-
-export default Layout;

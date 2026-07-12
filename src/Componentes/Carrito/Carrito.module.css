@@ -1,0 +1,17 @@
+.carrito {
+  max-width: 30rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.item {
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0;
+}
+
+.vacio {
+  text-align: center;
+  margin-top: 2rem;
+}
