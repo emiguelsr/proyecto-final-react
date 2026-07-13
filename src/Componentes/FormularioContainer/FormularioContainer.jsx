@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { FormularioProducto } from "../FormularioProducto/FormularioProducto";
-import { db } from "../../firebase/config";
-import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 
 export function FormularioContainer({
   productoAEditar,
   cancelarEdicion,
-  refrescarLista
+  onGuardarProducto
 }) {
 
   const estadoInicial = {
@@ -38,6 +36,15 @@ export function FormularioContainer({
     setImagenFile(e.target.files[0]);
   };
 
+  const convertirArchivoADataURL = (archivo) =>
+    new Promise((resolve, reject) => {
+      const lector = new FileReader();
+
+      lector.onload = () => resolve(lector.result);
+      lector.onerror = () => reject(new Error("No se pudo leer la imagen"));
+      lector.readAsDataURL(archivo);
+    });
+
   const manejarEnvio = async (e) => {
     e.preventDefault();
 
@@ -57,20 +64,32 @@ export function FormularioContainer({
       const formData = new FormData();
       formData.append("image", imagenFile);
 
-      const apikey = "TU_API_KEY_DE_IMGBB";
+      const apikey = import.meta.env.VITE_IMGBB_API_KEY;
 
-      const res = await fetch(`https://api.imgbb.com/1/upload?key=${apikey}`, {
-        method: "POST",
-        body: formData
-      });
+      if (!apikey) {
+        urlImagen = await convertirArchivoADataURL(imagenFile);
+      } else {
+        try {
+          const res = await fetch(`https://api.imgbb.com/1/upload?key=${apikey}`, {
+            method: "POST",
+            body: formData
+          });
 
-      const data = await res.json();
-      if (!data.success) {
-        alert("Error al subir imagen");
-        return;
+          if (res.ok) {
+            const data = await res.json();
+
+            if (data.success) {
+              urlImagen = data.data.display_url || data.data.url;
+            } else {
+              urlImagen = await convertirArchivoADataURL(imagenFile);
+            }
+          } else {
+            urlImagen = await convertirArchivoADataURL(imagenFile);
+          }
+        } catch {
+          urlImagen = await convertirArchivoADataURL(imagenFile);
+        }
       }
-
-      urlImagen = data.data.url;
     }
 
     const productoFinal = {
@@ -81,17 +100,9 @@ export function FormularioContainer({
     };
 
     try {
-      if (productoAEditar) {
-        const ref = doc(db, "productos", productoAEditar.id);
-        await updateDoc(ref, productoFinal);
-        alert("Producto actualizado con éxito");
-      } else {
-        const ref = collection(db, "productos");
-        await addDoc(ref, productoFinal);
-        alert("Producto creado con éxito");
-      }
+      await onGuardarProducto(productoFinal, productoAEditar);
 
-      refrescarLista();
+      alert(productoAEditar ? "Producto actualizado con éxito" : "Producto creado con éxito");
       cancelarEdicion();
 
     } catch (error) {

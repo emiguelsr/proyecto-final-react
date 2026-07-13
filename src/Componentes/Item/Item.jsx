@@ -20,6 +20,7 @@ function Item({ id, nombre, precio, stock, urlImagen }) {
 
   const agregarAlCarrito = useCallback(() => {
     agregarProducto({ id, nombre, precio, cantidad });
+    alert(`Agregaste ${nombre} al carrito`);
   }, [id, nombre, precio, cantidad, agregarProducto]);
 
   return (

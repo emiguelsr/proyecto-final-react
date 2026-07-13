@@ -1,7 +1,60 @@
 .login {
-  max-width: 20rem;
+  position: relative;
+  z-index: 20;
+  width: min(100%, 26rem);
   margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(126, 88, 49, 0.14);
+  box-shadow: 0 20px 48px rgba(96, 58, 21, 0.12);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.login h2 {
+  margin: 0;
+  color: #4c2f18;
+}
+
+.login form {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.login input {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(126, 88, 49, 0.22);
+  background: rgba(255, 255, 255, 0.94);
+  color: #3d2d1f;
+}
+
+.login input:focus {
+  outline: none;
+  border-color: #b56a2a;
+  box-shadow: 0 0 0 3px rgba(181, 106, 42, 0.18);
+}
+
+.login button {
+  position: relative;
+  z-index: 20;
+  border: none;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(135deg, #8a5a2b, #b56a2a);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login button:hover {
+  filter: brightness(1.03);
 }

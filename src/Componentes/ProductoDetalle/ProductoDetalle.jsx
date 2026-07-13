@@ -36,6 +36,8 @@ export default function ProductoDetalle() {
       precio: producto.precio,
       cantidad: 1
     });
+
+    alert(`Agregaste ${producto.nombre} al carrito`);
   };
 
   return (

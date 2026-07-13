@@ -1,3 +1,5 @@
+import styled from "styled-components";
+
 export function FormularioProducto({
   datosForm,
   manejarCambio,
@@ -8,14 +10,14 @@ export function FormularioProducto({
 }) {
 
   return (
-    <form className="container mt-4" onSubmit={manejarEnvio}>
-      <h3 className="mb-3">
+    <Form onSubmit={manejarEnvio}>
+      <h3>
         {modoEdicion ? "Editar producto" : "Agregar producto"}
       </h3>
 
       <input
         type="text"
-        className="form-control mb-3"
+        className="field"
         name="nombre"
         placeholder="Nombre"
         value={datosForm.nombre}
@@ -23,8 +25,9 @@ export function FormularioProducto({
       />
 
       <input
-        type="number"
-        className="form-control mb-3"
+        type="text"
+        inputMode="decimal"
+        className="field"
         name="precio"
         placeholder="Precio"
         value={datosForm.precio}
@@ -32,8 +35,9 @@ export function FormularioProducto({
       />
 
       <input
-        type="number"
-        className="form-control mb-3"
+        type="text"
+        inputMode="numeric"
+        className="field"
         name="stock"
         placeholder="Stock"
         value={datosForm.stock}
@@ -42,30 +46,96 @@ export function FormularioProducto({
 
       <input
         type="file"
-        className="form-control mb-3"
+        className="field"
         onChange={manejarCambioImagen}
       />
 
       {modoEdicion && datosForm.urlImagen && (
-        <div className="mb-3">
+        <Preview>
           <p>Imagen actual:</p>
           <img src={datosForm.urlImagen} alt="Actual" width="120" />
-        </div>
+        </Preview>
       )}
 
-      <button className="btn btn-primary" type="submit">
-        {modoEdicion ? "Actualizar" : "Guardar"}
-      </button>
-
-      {modoEdicion && (
-        <button
-          className="btn btn-secondary ms-3"
-          type="button"
-          onClick={cancelarEdicion}
-        >
-          Cancelar
+      <div className="actions">
+        <button className="primary" type="submit">
+          {modoEdicion ? "Actualizar" : "Guardar"}
         </button>
-      )}
-    </form>
+
+        {modoEdicion && (
+          <button
+            className="secondary"
+            type="button"
+            onClick={cancelarEdicion}
+          >
+            Cancelar
+          </button>
+        )}
+      </div>
+    </Form>
   );
 }
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  border-radius: 20px;
+  background: rgba(255, 248, 240, 0.9);
+  border: 1px solid rgba(126, 88, 49, 0.14);
+
+  h3 {
+    margin: 0;
+    color: #4b2f1f;
+  }
+
+  .field {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(126, 88, 49, 0.2);
+    background: white;
+    color: #4b2f1f;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .primary,
+  .secondary {
+    border: none;
+    border-radius: 999px;
+    padding: 0.75rem 1.1rem;
+    font-weight: 700;
+  }
+
+  .primary {
+    background: linear-gradient(135deg, #8a5a2b, #b56a2a);
+    color: white;
+  }
+
+  .secondary {
+    background: #d9c7b6;
+    color: #4b2f1f;
+  }
+`;
+
+const Preview = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.75);
+  color: #6f5138;
+
+  img {
+    border-radius: 12px;
+    object-fit: cover;
+  }
+`;

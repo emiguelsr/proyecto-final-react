@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import {
   getAuth,
+  setPersistence,
+  browserLocalPersistence,
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
@@ -21,28 +23,10 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const auth = firebaseReady ? getAuth() : null;
-  const localAuthKey = "react_copilot_local_user_v1";
-
-  const saveLocalUser = (nextUser) => {
-    localStorage.setItem(localAuthKey, JSON.stringify(nextUser));
-    setUser(nextUser);
-  };
-
-  const clearLocalUser = () => {
-    localStorage.removeItem(localAuthKey);
-    setUser(null);
-  };
 
   const login = (email, password) => {
     if (!auth) {
-      const nextUser = {
-        email,
-        uid: email,
-        rol: email.toLowerCase().includes("admin") ? "admin" : "user",
-      };
-
-      saveLocalUser(nextUser);
-      return Promise.resolve({ user: nextUser });
+      return Promise.reject(new Error("Firebase no está configurado correctamente"));
     }
 
     return signInWithEmailAndPassword(auth, email, password);
@@ -50,10 +34,7 @@ export function AuthProvider({ children }) {
 
   const signup = (email, password) => {
     if (!auth) {
-      const nextUser = { email, uid: email, rol: "user" };
-
-      saveLocalUser(nextUser);
-      return Promise.resolve({ user: nextUser });
+      return Promise.reject(new Error("Firebase no está configurado correctamente"));
     }
 
     return createUserWithEmailAndPassword(auth, email, password);
@@ -61,7 +42,6 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     if (!auth) {
-      clearLocalUser();
       return Promise.resolve();
     }
 
@@ -70,27 +50,29 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (!auth) {
-      try {
-        const savedUser = localStorage.getItem(localAuthKey);
-        setUser(savedUser ? JSON.parse(savedUser) : null);
-      } catch {
-        clearLocalUser();
-      }
-
+      setUser(null);
       setLoading(false);
       return;
     }
+
+    setPersistence(auth, browserLocalPersistence).catch(() => {
+      // If persistence cannot be set, Firebase will still try its default behavior.
+    });
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
 
       if (currentUser) {
         if (db) {
-          const ref = doc(db, "usuarios", currentUser.uid);
-          const snap = await getDoc(ref);
+          try {
+            const ref = doc(db, "usuarios", currentUser.uid);
+            const snap = await getDoc(ref);
 
-          if (snap.exists() && snap.data().rol === "admin") {
-            setUser({ ...currentUser, rol: "admin" });
-          } else {
+            if (snap.exists() && snap.data().rol === "admin") {
+              setUser({ ...currentUser, rol: "admin" });
+            } else {
+              setUser({ ...currentUser, rol: "user" });
+            }
+          } catch {
             setUser({ ...currentUser, rol: "user" });
           }
         } else {
@@ -108,7 +90,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={{ user, login, signup, logout }}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }
