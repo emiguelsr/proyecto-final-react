@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../Context/useAuth.js";
+import { useCart } from "../../../Context/useCart.js";
 import styles from "./Header.module.css";
 
 export default function Header() {
 
   const { user, logout } = useAuth();
+  const { carrito } = useCart();
+  const cantidadCarrito = carrito.reduce(
+    (total, producto) => total + (Number(producto.cantidad) || 1),
+    0
+  );
 
   return (
     <header className={styles.header}>
@@ -25,7 +31,10 @@ export default function Header() {
           </li>
 
           <li className="nav-item">
-            <Link className={styles.navLink} to="/carrito">Carrito</Link>
+            <Link className={`${styles.navLink} ${styles.cartLink}`} to="/carrito">
+              <span>Carrito</span>
+              <span className={styles.cartBadge}>{cantidadCarrito}</span>
+            </Link>
           </li>
 
           {user?.rol === "admin" && (

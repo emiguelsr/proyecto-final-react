@@ -63,6 +63,24 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.cartLink {
+  gap: 0.55rem;
+}
+
+.cartBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: #ffd79a;
+  color: #4b2f1f;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
 .navLink:hover,
 .adminLink:hover,
 .logoutButton:hover {

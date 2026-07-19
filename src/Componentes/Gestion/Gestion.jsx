@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { db, firebaseReady } from "../../firebase/config";
 import { collection, getDocs, deleteDoc, doc, addDoc, updateDoc } from "firebase/firestore";
 import { FormularioContainer } from "../FormularioContainer/FormularioContainer";
+import GestionCupones from "./GestionCupones";
 import styles from "./Gestion.module.css";
 import { Alert, Spinner } from "react-bootstrap";
 import styled from "styled-components";
@@ -56,6 +57,12 @@ export default function Gestion() {
   const confirmarEliminacion = async () => {
     if (!productoPendienteEliminar) return;
 
+    if (!firebaseReady || !db) {
+      setError("Firebase no está configurado correctamente");
+      setProductoPendienteEliminar(null);
+      return;
+    }
+
     try {
       const ref = doc(db, "productos", productoPendienteEliminar.id);
       await deleteDoc(ref);
@@ -76,6 +83,11 @@ export default function Gestion() {
   };
 
   const guardarProducto = async (productoFinal, productoOriginal) => {
+    if (!firebaseReady || !db) {
+      setError("Firebase no está configurado correctamente");
+      return;
+    }
+
     const productoNormalizado = normalizarProducto(productoFinal);
 
     if (productoOriginal) {
@@ -130,6 +142,8 @@ export default function Gestion() {
           </li>
         ))}
       </ul>
+
+      <GestionCupones />
 
       {productoPendienteEliminar && (
         <ConfirmBox>

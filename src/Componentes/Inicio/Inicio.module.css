@@ -1,4 +1,144 @@
 .inicio {
-  text-align: center;
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.hero,
+.destacadosSection {
+  border-radius: 24px;
+  background: rgba(255, 251, 245, 0.96);
+  border: 1px solid rgba(126, 88, 49, 0.16);
+  box-shadow: 0 16px 40px rgba(100, 61, 22, 0.08);
+}
+
+.hero {
   padding: 2rem;
+  text-align: center;
+}
+
+.kicker {
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  color: #a16a3c;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #4b2f1f;
+}
+
+.lead {
+  margin: 0.75rem auto 1.25rem;
+  max-width: 44rem;
+  color: #6d5142;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.15rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, #8a5a2b, #b56a2a);
+}
+
+.destacadosSection {
+  padding: 1.5rem;
+}
+
+.sectionHeader {
+  margin-bottom: 1rem;
+}
+
+.sectionHeader h2,
+.sectionHeader p {
+  margin: 0;
+}
+
+.sectionHeader h2 {
+  color: #4b2f1f;
+}
+
+.sectionHeader p {
+  margin-top: 0.35rem;
+  color: #6d5142;
+}
+
+.loadingWrap {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(126, 88, 49, 0.14);
+  background: white;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.cardBody {
+  padding: 1rem;
+  text-align: left;
+}
+
+.tag {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: #f4e3d2;
+  color: #8b5b31;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.cardBody h3 {
+  margin: 0;
+  color: #4b2f1f;
+  font-size: 1.05rem;
+}
+
+.precio {
+  margin: 0.55rem 0 0;
+  color: #a15f2a;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .hero,
+  .destacadosSection {
+    padding: 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
